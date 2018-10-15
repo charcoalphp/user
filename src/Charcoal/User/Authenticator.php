@@ -96,14 +96,14 @@ class Authenticator implements LoggerAwareInterface
     /**
      * Attempt to authenticate a user using the given credentials.
      *
-     * @param string $username Username, part of necessary credentials.
-     * @param string $password Password, part of necessary credentials.
-     * @param string|null $key Optional property (key) to use for the username. Defaults to actual object's key.
+     * @param string      $username Username, part of necessary credentials.
+     * @param string      $password Password, part of necessary credentials.
+     * @param string|null $key      Optional property (key) to use for the username. Defaults to actual object's key.
      * @throws InvalidArgumentException If username or password are invalid or empty.
      * @return \Charcoal\User\UserInterface|null Returns the authenticated user object
      *     or NULL if not authenticated.
      */
-    public function authenticateByPassword($username, $password, $key=null)
+    public function authenticateByPassword($username, $password, $key = null)
     {
         if (!is_string($username) || !is_string($password)) {
             throw new InvalidArgumentException(
