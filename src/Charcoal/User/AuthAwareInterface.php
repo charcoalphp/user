@@ -3,14 +3,14 @@
 namespace Charcoal\User;
 
 /**
- * Defines a class with authentication capabilities.
+ * Defines a class with authentication and authorization capabilities.
  *
  * Implementation, as trait, provided by {@see \Charcoal\User\AuthAwareTrait}.
  */
 interface AuthAwareInterface
 {
     /**
-     * @return boolean
+     * @return booleans
      */
     public function isAuthorized();
 
