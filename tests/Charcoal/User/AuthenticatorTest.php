@@ -2,6 +2,8 @@
 
 namespace Charcoal\Tests\User;
 
+use InvalidArgumentException;
+
 // From Pimple
 use Pimple\Container;
 
@@ -41,8 +43,8 @@ class AuthenticatorTest extends AbstractTestCase
         if (session_id()) {
             session_unset();
         }
-
         $container = $this->container();
+
 
         $this->obj = new Authenticator([
             'logger'        => $container['logger'],
@@ -53,14 +55,34 @@ class AuthenticatorTest extends AbstractTestCase
         ]);
     }
 
-    /**
-     * @return void
-     */
-    public function testConstructor()
+    public function testConstructorInvalidUserType()
     {
-        $this->assertInstanceOf(Authenticator::class, $this->obj);
+        $container = $this->container();
+
+        $this->expectException(InvalidArgumentException::class);
+        $obj = new Authenticator([
+            'logger'        => $container['logger'],
+            'user_type'     => false,
+            'user_factory'  => $container['model/factory'],
+            'token_type'    => AuthToken::class,
+            'token_factory' => $container['model/factory']
+        ]);
     }
 
+    public function testConstructorInvalidTokenType()
+    {
+        $container = $this->container();
+
+        $this->expectException(InvalidArgumentException::class);
+        $obj = new Authenticator([
+            'logger'        => $container['logger'],
+            'user_type'     => User::class,
+            'user_factory'  => $container['model/factory'],
+            'token_type'    => false,
+            'token_factory' => $container['model/factory']
+        ]);
+    }
+    
     /**
      * @return void
      */
@@ -75,7 +97,7 @@ class AuthenticatorTest extends AbstractTestCase
      */
     public function testAuthenticateByPasswordInvalidUsername()
     {
-        $this->expectException('\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->obj->authenticateByPassword([], '');
     }
 
@@ -84,7 +106,7 @@ class AuthenticatorTest extends AbstractTestCase
      */
     public function testAuthenticateByPasswordInvalidPassword()
     {
-        $this->expectException('\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->obj->authenticateByPassword('', []);
     }
 
@@ -93,7 +115,7 @@ class AuthenticatorTest extends AbstractTestCase
      */
     public function testAuthenticateByPasswordEmpty()
     {
-        $this->expectException('\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->obj->authenticateByPassword('', '');
     }
 

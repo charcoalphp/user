@@ -82,7 +82,7 @@ class Permission extends AbstractModel implements CategorizableInterface
 
     /**
      * @param mixed $name The permission name / label.
-     * @return Permission Chainable
+     * @return self
      */
     public function setName($name)
     {

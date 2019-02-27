@@ -85,7 +85,7 @@ class Authenticator implements LoggerAwareInterface
             return $u;
         }
 
-        $u = $this->authenticateByToken();
+        $u = $this->authenticateByAuthToken();
         if ($u) {
             return $u;
         }
@@ -290,7 +290,7 @@ class Authenticator implements LoggerAwareInterface
      * @return \Charcoal\User\UserInterface|null Returns the authenticated user object
      *     or NULL if not authenticated.
      */
-    private function authenticateByToken()
+    private function authenticateByAuthToken()
     {
         $tokenType = $this->tokenType();
         $authToken = $this->tokenFactory()->create($tokenType);

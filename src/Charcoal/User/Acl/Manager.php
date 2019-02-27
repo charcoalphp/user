@@ -82,7 +82,7 @@ class Manager implements LoggerAwareInterface
     }
 
     /**
-     * @param Acl    $acl         The Zend Acl instant to add permissions to.
+     * @param Acl    $acl         The Zend Acl instance to add permissions to.
      * @param string $role        The role (string identifier) to add.
      * @param array  $permissions The permissions details (array) to add.
      * @param string $resource    The Acl resource (string identifier) to add roles and permissions into.

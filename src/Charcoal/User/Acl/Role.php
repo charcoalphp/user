@@ -92,7 +92,7 @@ class Role extends AbstractModel
 
     /**
      * @param string|Role $parent Role's parent.
-     * @return Role Chainable
+     * @return self
      */
     public function setParent($parent)
     {
@@ -111,7 +111,7 @@ class Role extends AbstractModel
     /**
      * @param string[]|string|null $allowed The allowed permissions for this role.
      * @throws InvalidArgumentException If the passed arguments is not an array, null, or a comma-separated string.
-     * @return Role Chainable
+     * @return self
      */
     public function setAllowed($allowed)
     {
@@ -144,7 +144,7 @@ class Role extends AbstractModel
     /**
      * @param string[]|string|null $denied The denied permissions for this role.
      * @throws InvalidArgumentException If the passed arguments is not an array, null, or a comma-separated string.
-     * @return Role Chainable
+     * @return self
      */
     public function setDenied($denied)
     {
@@ -176,7 +176,7 @@ class Role extends AbstractModel
 
     /**
      * @param boolean $isSuper The superuser flag.
-     * @return Role Chainable
+     * @return self
      */
     public function setSuperuser($isSuper)
     {
@@ -194,7 +194,7 @@ class Role extends AbstractModel
 
     /**
      * @param integer|string|null $position The role's ordering position.
-     * @return Role Chainable
+     * @return self
      */
     public function setPosition($position)
     {

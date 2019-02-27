@@ -37,10 +37,10 @@ trait AuthAwareTrait
     }
 
     /**
-     * @param array|null $permissions The list of required permissions to check.
+     * @param string[]|null $permissions The list of required permissions to check.
      * @return boolean
      */
-    public function hasPermissions($permissions)
+    public function hasPermissions(array $permissions)
     {
         $authUser = $this->authenticator()->authenticate();
         if (!$authUser) {

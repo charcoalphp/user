@@ -2,6 +2,10 @@
     "properties": {
         "id": {
             "type": "id"
+        },
+        "name": {
+            "type": "string",
+            "l10n": true
         }
     },
 

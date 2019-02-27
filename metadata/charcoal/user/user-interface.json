@@ -5,6 +5,7 @@
             "unique": true,
             "required": true,
             "allow_null": false,
+            "allow_empty": false,
             "label": {
                 "en": "Username",
                 "fr": "Nom d'utilisateur"
