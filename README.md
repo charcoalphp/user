@@ -8,7 +8,7 @@ User defintion (as Charcoal Model), authentication and authorization (with Zend 
 -   [How to install](#how-to-install)
     -   [Dependencies](#dependencies)
 -   [The User object](#the-user-object)
--   [Authentication](#authentication)
+-   [JWT Handler](#jwt-handler)
 -   [Authorization](#authorization)
 -   [Development](#development)
     -   [Development dependencies](#development-dependencies)
@@ -28,13 +28,13 @@ The preferred (and only supported) way of installing _charcoal-user_ is with **c
 
 - PHP 5.6+
     -   This is the last supported version of PHP.
-    -   `PHP 7` is also supported (meaning _green on travis_…).
+    -   `PHP 7.1+` is highly recommended.
 - `zendframework/zend-permissions-acl`
 - `locomotivemtl/charcoal-object`
 
 # The User object
 
-At the core of this module is the definition of a "User" object. The contract can be found as `\Charcoal\User\UserInterface`. This interfaces extends `\Charcoal\Object\ContentInterface` (from `locomotivemtl/charcoal-object`), which extends `\Charcoal\Model\ModelInterface` (from `locomotivemtl/charcoal-core`).
+At the core of this module is the definition of a "User" object. The User contract can be found as `\Charcoal\User\UserInterface`. This interfaces extends `\Charcoal\Object\ContentInterface` (from `locomotivemtl/charcoal-object`), which extends `\Charcoal\Model\ModelInterface` (from `locomotivemtl/charcoal-core`).
 
 The preferred way of using this module is by defining your own User class in your project and extending the provided `\Charcoal\User\AbstractUser` class.
 
@@ -67,15 +67,29 @@ For quick prototypes or small projects, a full concrete class is provided as `\C
 | **last_modified**         | `date-time` | `null`      | …           |
 | **last\_modified\_by**    | `string`    | `''`        | …           |
 
-# Authentication
+## JWT Handler
 
-...
-
-## Authentication Examples
+Authentication through a JWT (_JSON Web Token_) is encapsulated within the `\Charcoal\User\Service\JWTHandler` helper service. It must be passed a `\Charcoal\User\Config\JWTConfig` configuration to work.
 
 ```php
-$
+$config = new \Charcoal\User\Config\JWTConfig([
+    'privateKey' => 'path/to/private.key',
+    'publicKey' => 'path/to
+];
+$jwtHandler = new \Charcoal\User\Service\JWTHandler($config);
+
+// To generate a signed token for a user:
+$token = $jwtHandler->generateTokenForUserId($userId);
+return [
+    'access_token' => (string)$token
+];
+
+// ...
+// To retrieve (parse and validate) a token from a PSR-7 request:
+$token = $jwtHandler->getTokenFromRequest($request);
+$userId = $jwtHandler->getUserIdFromToken($token);
 ```
+
 
 # Authorization
 
@@ -179,7 +193,7 @@ The charcoal-user module follows the Charcoal coding-style:
 > Coding style validation / enforcement can be performed with `composer phpcs`. An auto-fixer is also available with `composer phpcbf`.
 
 
-> This module should also throw no error when running `phpstan analyse -l7 src/` 👍.
+> This module should also throw no error when running `phpstan analyse -l1 src/` 👍.
 
 # Authors
 
