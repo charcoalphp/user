@@ -2,23 +2,29 @@
 
 namespace Charcoal\User\ServiceProvider;
 
-// From Pimple
+// From 'pimple/pimple'
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-// From 'zendframework/zend-permissions-acl'
+// From 'zendframework/zend-permission-acl'
 use Zend\Permissions\Acl\Acl;
 
 // From 'charcoal-user'
 use Charcoal\User\Authenticator;
 use Charcoal\User\Authorizer;
 use Charcoal\User\AuthToken;
-use Charcoal\User\GenericUser as User;
+use Charcoal\User\Service\AclManager;
 
 /**
+ * Charcoal User Service Provider
  *
+ * ## Services
+ *
+ * - Authenticator
+ * - Authorizer
+ * - ACL Manager
  */
-class AuthServiceProvider implements ServiceProviderInterface
+class UserServiceProvider implements ServiceProviderInterface
 {
     /**
      * @param  Container $container A Pimple DI container.
@@ -26,6 +32,17 @@ class AuthServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
+        /**
+         * @param  Container $container The Pimple DI container.
+         * @return AclManager
+         */
+        $container['acl/manager'] = function (Container $container) {
+            return new AclManager([
+                'config' => $container['config']['acl'],
+                'logger' => $container['logger']
+            ]);
+        };
+
         if (!isset($container['authenticator'])) {
             /**
              * @param  Container $container The Pimple DI Container.
@@ -49,9 +66,9 @@ class AuthServiceProvider implements ServiceProviderInterface
              */
             $container['authorizer'] = function (Container $container) {
                 return new Authorizer([
-                    'logger'    => $container['logger'],
-                    'acl'       => new Acl(),
-                    'resource'  => 'charcoal'
+                    'logger'     => $container['logger'],
+                    'aclManager' => $container['acl/manager'],
+                    'resource'   => 'charcoal'
                 ]);
             };
         }

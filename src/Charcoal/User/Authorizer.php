@@ -4,14 +4,15 @@ namespace Charcoal\User;
 
 use InvalidArgumentException;
 
-// From PSR-3
+// From 'psr/log'
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
-// From 'zendframework/zend-permissions'
+// From 'zendframework/zend-permissions-acl'
 use Zend\Permissions\Acl\Acl;
 
 // From 'charcoal-user'
+use Charcoal\User\AclManagerAwareTrait;
 use Charcoal\User\UserInterface;
 
 /**
@@ -22,28 +23,25 @@ use Charcoal\User\UserInterface;
  * Constructor dependencies are passed as an array of `key=>value` pair.
  * The required dependencies are:
  *
- * - `logger` A PSR3 logger instance.
- * - `acl` A Zend ACL (Access-Control-List) instance.
- * - `resource` The ACL resource identifier (string).
+ * - `aclManager` A Zend ACL (Access-Control-List) instance.
+ * - `logger`     A PSR3 logger instance.
+ * - `resource`   The ACL resource identifier (string).
  *
  * ## Checking permissions
  *
- * To check if a given ACL (passed in constructor) allows a list of permissions (aka privileges):
+ * To check if the ACL Manager allows a list of permissions (aka privileges):
  *
  * - `userAllowed(UserInterface $user, string[] $aclPermissions)`
  * - `rolesAllowed(string[] $roles, string[] $aclPermissions)`
  */
 class Authorizer implements LoggerAwareInterface
 {
+    use AclManagerAwareTrait;
     use LoggerAwareTrait;
 
     /**
-     * @var Acl $acl
-     */
-    private $acl;
-
-    /**
-     * The ACL resource identifier
+     * The ACL resource identifier.
+     *
      * @var string $resource
      */
     private $resource;
@@ -54,7 +52,7 @@ class Authorizer implements LoggerAwareInterface
     public function __construct(array $data)
     {
         $this->setLogger($data['logger']);
-        $this->setAcl($data['acl']);
+        $this->setAclManager($data['aclManager']);
         $this->setResource($data['resource']);
     }
 
@@ -63,18 +61,27 @@ class Authorizer implements LoggerAwareInterface
      * @param string[] $aclPermissions The acl permissions to validate.
      * @return boolean Wether the permissions are allowed for a given list of roles.
      */
-    public function rolesAllowed(array $aclRoles, array $aclPermissions)
+    public function rolesAllowed($aclRoles, array $aclPermissions)
     {
-        $acl = $this->acl();
-        $aclResource = $this->resource();
+        if (is_string($aclRoles)) {
+            $aclRoles = [ $aclRoles ];
+        }
 
         foreach ($aclRoles as $aclRole) {
             foreach ($aclPermissions as $aclPermission) {
-                if (!$acl->isAllowed($aclRole, $aclResource, $aclPermission)) {
+                if (is_array($aclPermission)) {
+                    $aclModel = $aclPermission['model'];
+                    $aclPrivilege = $aclPermission['privilege'];
+                } else {
+                    $aclModel = null;
+                    $aclPrivilege = $aclPermission;
+                }
+
+                if (!$this->aclManager()->assessAccess($aclRole, $aclModel, $aclPrivilege)) {
                     $this->logger->error(sprintf(
                         'Role "%s" is not allowed permission "%s"',
                         $aclRole,
-                        $aclPermission
+                        $aclPrivilege
                     ));
                     return false;
                 }
@@ -84,38 +91,15 @@ class Authorizer implements LoggerAwareInterface
     }
 
     /**
+     * Determine if a user can perform a certain action.
+     *
      * @param UserInterface $user           The user to validate against.
-     * @param string[]      $aclPermissions The acl permissions to validate.
-     * @return boolean Whether the permissions are allowed for a given user.
+     * @param string[]      $aclPermissions The ACL permissions to validate.
+     * @return boolean
      */
     public function userAllowed(UserInterface $user, array $aclPermissions)
     {
         return $this->rolesAllowed($user->roles(), $aclPermissions);
-    }
-
-    /**
-     * @return Acl
-     */
-    protected function acl()
-    {
-        return $this->acl;
-    }
-
-    /**
-     * @return string
-     */
-    protected function resource()
-    {
-        return $this->resource;
-    }
-
-    /**
-     * @param Acl $acl The ACL instance.
-     * @return void
-     */
-    private function setAcl(Acl $acl)
-    {
-        $this->acl = $acl;
     }
 
     /**
@@ -131,5 +115,13 @@ class Authorizer implements LoggerAwareInterface
             );
         }
         $this->resource = $resource;
+    }
+
+    /**
+     * @return string
+     */
+    protected function resource()
+    {
+        return $this->resource;
     }
 }
