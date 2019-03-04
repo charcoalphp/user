@@ -95,7 +95,7 @@ class AuthenticatorTest extends AbstractTestCase
     /**
      * @return void
      */
-    public function testAuthenticateByPasswordInvalidUsername()
+    public function testAuthenticateByPasswordInvalidEmail()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->obj->authenticateByPassword([], '');
