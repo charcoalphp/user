@@ -23,6 +23,9 @@ class AclManager implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
+    /** @const array ACL types. */
+    const TYPES = [ 'allow', 'deny' ];
+
     /**
      * The manager's AclInterface instance.
      *
@@ -81,22 +84,17 @@ class AclManager implements LoggerAwareInterface
                 $roleStruct['is_superuser'] = false;
             }
 
-            /** Used for building a simple string based rule listing. */
-            $roleStruct['rules'] = [];
+            /** Used for building a flat, string based rule listing. */
+            $rules = [];
 
             /** Rules are stored in an Model::objType format. */
             if (isset($roleStruct['models']) && is_array($roleStruct['models'])) {
-                foreach ($roleStruct['models'] as $resource => $allowedPrivileges) {
+                foreach ($roleStruct['models'] as $resource => $ruleTypes) {
                     if (!$this->acl->hasResource($resource)) {
                         $this->acl->addResource($resource);
                     }
 
-                    if (is_array($allowedPrivileges)) {
-                        foreach ($allowedPrivileges as $allowed) {
-                            $this->acl->allow($roleId, $resource, $allowed);
-                            $roleStruct['rules'][] = sprintf('%s.%s', $resource, $allowed);
-                        }
-                    }
+                    $rules = array_merge($rules, $this->parseRuleTypes($ruleTypes, $roleId, $resource));
                 }
             } else {
                 $roleStruct['models'] = [];
@@ -104,19 +102,60 @@ class AclManager implements LoggerAwareInterface
 
             /** Rules can also be stored in a user-defined format under 'privileges', allowing for flexibility. */
             if (isset($roleStruct['privileges']) && is_array($roleStruct['privileges'])) {
-                foreach ($roleStruct['privileges'] as $allowedPrivilege) {
-                    $this->acl->allow($roleId, null, $allowedPrivilege);
-                    $roleStruct['rules'][] = $allowedPrivilege;
-                }
+                $rules = array_merge($rules, $this->parseRuleTypes($roleStruct['privileges'], $roleId));
             } else {
                 $roleStruct['privileges'] = [];
             }
+
+            $roleStruct['rules'] = $rules;
         });
 
         $this->roles = $roles;
         $this->defaultRole = Arr::get($config, 'default_role');
 
         return $this;
+    }
+
+    /**
+     * Parse a list of privileges sorted by rule types, add to the ACL and generate the flat rule list.
+     *
+     * @param  array       $ruleTypes
+     * @param  string      $roleId
+     * @param  string|null $resource
+     * @throws RuntimeException If a rule type is not supported by the manager.
+     * @return array
+     */
+    private function parseRuleTypes(array $ruleTypes, $roleId, $resource = null)
+    {
+        $rules = [];
+        $strTemplate = $resource !== null ? ':type.:resource.:privilege'  : ':type.:privilege';
+        $strParams   = $resource !== null ? [ ':resource'  => $resource ] : [];
+        foreach ($ruleTypes as $type => $privileges) {
+            if (in_array($type, self::TYPES)) {
+                $strParams[':type'] = $type;
+                if (is_array($privileges)) {
+                    foreach ($privileges as $privilege) {
+                        $strParams[':privilege'] = $privilege;
+                        $this->acl->{$type}($roleId, $resource, $privilege);
+                        $rules[] = strtr($strTemplate, $strParams);
+                    }
+                } else {
+                    throw new RuntimeException(sprintf(
+                        'Invalid privilege definition in ACL config for role "%s". Expected array, received %s.',
+                        $roleId,
+                        gettype($privileges)
+                    ));
+                }
+            } else {
+                throw new RuntimeException(sprintf(
+                    'Invalid rule type "%s" in ACL config for role "%s".',
+                    $type,
+                    $roleId
+                ));
+            }
+        }
+
+        return $rules;
     }
 
     /**
@@ -178,6 +217,19 @@ class AclManager implements LoggerAwareInterface
             throw new InvalidArgumentException('You must define at least one of both model and privilege.');
         }
 
-        return $this->acl->isAllowed($role, $model, $privilege);
+        try {
+            if ($model !== null && !$this->acl->hasResource($model)) {
+                $this->acl->addResource($model);
+            }
+            return $this->acl->isAllowed($role, $model, $privilege);
+        } catch (Exception $error) {
+            $this->logger->error(sprintf(
+                '[ACL] Failed to assess access for role "%s", model "%s", privilege "%s". Error: %s',
+                $role,
+                $model,
+                $privilege,
+                $error->getMessage()
+            ));
+        }
     }
 }
