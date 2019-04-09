@@ -68,10 +68,13 @@ class AclManager implements LoggerAwareInterface
         $roles = $config['roles'];
 
         array_walk($roles, function(&$roleStruct, $roleId) {
-            $parent = null;
+            $parent = Arr::get($roleStruct, 'parent');
+
             /** Assumes roles child roles are defined after parent roles in config. */
-            if (isset($roleStruct['parent']) && $this->acl->hasRole($roleStruct['parent'])) {
-                $parent = $this->acl->getRole($roleStruct['parent']);
+            if ($parent !== null && $this->acl->hasRole($parent)) {
+                $parent = $this->acl->getRole($parent);
+            } else {
+                $roleStruct['parent'] = null;
             }
 
             /** Create an ACL role. */
