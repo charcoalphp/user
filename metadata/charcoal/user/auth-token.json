@@ -16,7 +16,7 @@
         "created": {
             "type": "date-time"
         },
-        "last_modified": {
+        "lastModified": {
             "type": "date-time"
         }
     },
@@ -26,5 +26,5 @@
             "table": "charcoal_user_auth_tokens"
         }
     },
-    "default_source": "default"
+    "defaultSource": "default"
 }
