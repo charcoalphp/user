@@ -103,7 +103,7 @@ class Role extends AbstractModel
     /**
      * @return string
      */
-    public function parent()
+    public function getParent()
     {
         return $this->parent;
     }
@@ -136,7 +136,7 @@ class Role extends AbstractModel
     /**
      * @return string[]|null
      */
-    public function allowed()
+    public function getAllowed()
     {
         return $this->allowed;
     }
@@ -169,7 +169,7 @@ class Role extends AbstractModel
     /**
      * @return string[]|null
      */
-    public function denied()
+    public function getDenied()
     {
         return $this->denied;
     }
@@ -187,7 +187,7 @@ class Role extends AbstractModel
     /**
      * @return boolean
      */
-    public function superuser()
+    public function getSuperuser()
     {
         return $this->superuser;
     }
@@ -205,7 +205,7 @@ class Role extends AbstractModel
     /**
      * @return integer
      */
-    public function position()
+    public function getPosition()
     {
         return $this->position;
     }

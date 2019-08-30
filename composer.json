@@ -13,7 +13,7 @@
     "prefer-stable": true,
     "extra": {
         "branch-alias": {
-            "dev-master": "0.4.x-dev"
+            "dev-master": "0.5.x-dev"
         }
     },
     "require": {
@@ -34,7 +34,7 @@
         "php-coveralls/php-coveralls": "^2.0",
         "cache/void-adapter": "^0.3",
         "tedivm/stash": "~0.14",
-        "slim/slim": "^3.12"
+        "seld/jsonlint": "^1.7"
     },
     "autoload": {
         "psr-4": {
@@ -51,10 +51,12 @@
             "@tests"
         ],
         "tests": [
+            "@jsonlnt",
             "@phplint",
             "@phpcs",
             "@phpunit"
         ],
+        "jsonlint": "find metadata tests -type f -name '*.json' -print0 | xargs -0 -n1 -P8 vendor/bin/jsonlint | grep -v '^Valid JSON'; test $? -eq 1",
         "phplint": "find src tests -type f -name '*.php' -print0 | xargs -0 -n1 -P8 php -l | grep -v '^No syntax errors detected'; test $? -eq 1",
         "phpcs": "php vendor/bin/phpcs -ps --colors src/",
         "phpcbf": "php vendor/bin/phpcbf -ps --colors src/ tests/",

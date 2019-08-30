@@ -82,7 +82,7 @@ class AuthenticatorTest extends AbstractTestCase
             'token_factory' => $container['model/factory']
         ]);
     }
-    
+
     /**
      * @return void
      */
@@ -97,7 +97,7 @@ class AuthenticatorTest extends AbstractTestCase
      */
     public function testAuthenticateByPasswordInvalidEmail()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->obj->authenticateByPassword([], '');
     }
 
@@ -106,7 +106,7 @@ class AuthenticatorTest extends AbstractTestCase
      */
     public function testAuthenticateByPasswordInvalidPassword()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->obj->authenticateByPassword('', []);
     }
 
@@ -115,7 +115,7 @@ class AuthenticatorTest extends AbstractTestCase
      */
     public function testAuthenticateByPasswordEmpty()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->obj->authenticateByPassword('', '');
     }
 

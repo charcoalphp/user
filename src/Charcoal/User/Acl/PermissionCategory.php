@@ -32,7 +32,7 @@ class PermissionCategory extends Content implements CategoryInterface
     /**
      * @return \Charcoal\Translator\Translation|null
      */
-    public function name()
+    public function getName()
     {
         return $this->name;
     }

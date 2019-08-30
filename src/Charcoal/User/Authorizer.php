@@ -99,7 +99,7 @@ class Authorizer implements LoggerAwareInterface
      */
     public function userAllowed(UserInterface $user, array $aclPermissions)
     {
-        return $this->rolesAllowed($user->roles(), $aclPermissions);
+        return $this->rolesAllowed($user['roles'], $aclPermissions);
     }
 
     /**
