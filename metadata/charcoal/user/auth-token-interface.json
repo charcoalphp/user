@@ -7,7 +7,7 @@
         "token": {
             "type": "string"
         },
-        "user_id": {
+        "userId": {
             "type": "string"
         },
         "expiry": {

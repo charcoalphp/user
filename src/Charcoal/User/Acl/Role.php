@@ -101,14 +101,6 @@ class Role extends AbstractModel
     }
 
     /**
-     * @return string
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
-
-    /**
      * @param string[]|string|null $allowed The allowed permissions for this role.
      * @throws InvalidArgumentException If the passed arguments is not an array, null, or a comma-separated string.
      * @return self
@@ -131,14 +123,6 @@ class Role extends AbstractModel
         }
         $this->allowed = $allowed;
         return $this;
-    }
-
-    /**
-     * @return string[]|null
-     */
-    public function getAllowed()
-    {
-        return $this->allowed;
     }
 
     /**
@@ -167,14 +151,6 @@ class Role extends AbstractModel
     }
 
     /**
-     * @return string[]|null
-     */
-    public function getDenied()
-    {
-        return $this->denied;
-    }
-
-    /**
      * @param boolean $isSuper The superuser flag.
      * @return self
      */
@@ -185,14 +161,6 @@ class Role extends AbstractModel
     }
 
     /**
-     * @return boolean
-     */
-    public function getSuperuser()
-    {
-        return $this->superuser;
-    }
-
-    /**
      * @param integer|string|null $position The role's ordering position.
      * @return self
      */
@@ -200,14 +168,6 @@ class Role extends AbstractModel
     {
         $this->position = (int)$position;
         return $this;
-    }
-
-    /**
-     * @return integer
-     */
-    public function getPosition()
-    {
-        return $this->position;
     }
 
     /**

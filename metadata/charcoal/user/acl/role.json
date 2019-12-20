@@ -5,7 +5,7 @@
         },
         "parent": {
             "type": "object",
-            "obj_type": "charcoal/user/acl/role"
+            "objType": "charcoal/user/acl/role"
         },
         "name": {
             "type":"string",
@@ -50,5 +50,6 @@
             "table": "charcoal_user_acl_roles"
         }
     },
-    "default_source": "default"
+
+    "defaultSource": "default"
 }

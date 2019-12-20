@@ -4,5 +4,6 @@
             "table": "charcoal_users"
         }
     },
-    "default_source": "default"
+
+    "defaultSource": "default"
 }

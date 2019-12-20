@@ -14,20 +14,10 @@ interface AuthTokenInterface
     public function setIdent($ident);
 
     /**
-     * @return string
-     */
-    public function getIdent();
-
-    /**
      * @param  string $token The token.
      * @return self
      */
     public function setToken($token);
-
-    /**
-     * @return string
-     */
-    public function getToken();
 
     /**
      * @param  string $id The user ID.
@@ -37,21 +27,11 @@ interface AuthTokenInterface
     public function setUserId($id);
 
     /**
-     * @return string
-     */
-    public function getUserId();
-
-    /**
      * @param  DateTimeInterface|string|null $expiry The date/time at object's creation.
      * @throws InvalidArgumentException If the date/time is invalid.
      * @return self
      */
     public function setExpiry($expiry);
-
-    /**
-     * @return DateTimeInterface|null
-     */
-    public function getExpiry();
 
     /**
      * @param  DateTimeInterface|string|null $created The date/time at object's creation.
@@ -61,21 +41,11 @@ interface AuthTokenInterface
     public function setCreated($created);
 
     /**
-     * @return DateTimeInterface|null
-     */
-    public function getCreated();
-
-    /**
      * @param  DateTimeInterface|string|null $lastModified The last modified date/time.
      * @throws InvalidArgumentException If the date/time is invalid.
      * @return self
      */
     public function setLastModified($lastModified);
-
-    /**
-     * @return DateTimeInterface|null
-     */
-    public function getLastModified();
 
     /**
      * Generate auth token data for the given user ID.

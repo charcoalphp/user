@@ -8,8 +8,8 @@
             "type": "email",
             "unique": true,
             "required": true,
-            "allow_empty": false,
-            "allow_null": false,
+            "allowEmpty": false,
+            "allowNull": false,
             "label": {
                 "en": "Email Address",
                 "fr": "Adresse Courriel"
@@ -18,14 +18,14 @@
         "password": {
             "type": "password",
             "required": true,
-            "allow_null": false,
-            "allow_empty": false,
+            "allowNull": false,
+            "allowEmpty": false,
             "label": {
                 "en": "Password",
                 "fr": "Mot de passe"
             }
         },
-        "display_name": {
+        "displayName": {
             "type": "string",
             "required": true,
             "label": {
@@ -41,41 +41,41 @@
                 "fr": "Rôles (permissions)"
             }
         },
-        "last_login_date": {
+        "lastLoginDate": {
             "type": "date-time",
-            "input_type": "charcoal/admin/property/input/readonly",
+            "inputType": "charcoal/admin/property/input/readonly",
             "label": {
                 "en": "Date of last sign-in",
                 "fr": "Date de la dernière connexion"
             }
         },
-        "last_login_ip": {
+        "lastLoginIp": {
             "type": "ip",
-            "input_type": "charcoal/admin/property/input/readonly",
+            "inputType": "charcoal/admin/property/input/readonly",
             "label": {
                 "en": "IP address of last sign-in",
                 "fr": "Adresse IP de la dernière connexion"
             }
         },
-        "last_password_date": {
+        "lastPasswordDate": {
             "type": "date-time",
-            "input_type": "charcoal/admin/property/input/readonly",
+            "inputType": "charcoal/admin/property/input/readonly",
             "label": {
                 "en": "Date of last password change",
                 "fr": "Date de la dernière modification de mot de passe"
             }
         },
-        "last_password_ip": {
+        "lastPasswordIp": {
             "type": "ip",
-            "input_type": "charcoal/admin/property/input/readonly",
+            "inputType": "charcoal/admin/property/input/readonly",
             "label": {
                 "en": "IP address of last password change",
                 "fr": "Adresse IP de la dernière modification de mot de passe"
             }
         },
-        "login_token": {
+        "loginToken": {
             "type": "string",
-            "input_type": "charcoal/admin/property/input/readonly",
+            "inputType": "charcoal/admin/property/input/readonly",
             "label": {
                 "en": "Login Token",
                 "fr": "Clé de connexion"

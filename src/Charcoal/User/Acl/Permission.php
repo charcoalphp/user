@@ -28,7 +28,7 @@ class Permission extends AbstractModel implements CategorizableInterface
     /**
      * @var string|null
      */
-    private $ident;
+    protected $ident;
 
     /**
      * @var \Charcoal\Translator\Translation|null
@@ -73,14 +73,6 @@ class Permission extends AbstractModel implements CategorizableInterface
     }
 
     /**
-     * @return string|null
-     */
-    public function getIdent()
-    {
-        return $this->ident;
-    }
-
-    /**
      * @param mixed $name The permission name / label.
      * @return self
      */
@@ -88,14 +80,6 @@ class Permission extends AbstractModel implements CategorizableInterface
     {
         $this->name = $this->translator()->translation($name);
         return $this;
-    }
-
-    /**
-     * @return \Charcoal\Translator\Translation|null
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**

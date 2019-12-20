@@ -17,7 +17,7 @@
             }
         },
         "category": {
-            "obj_type": "charcoal/user/acl/permission-category"
+            "objType": "charcoal/user/acl/permission-category"
         }
     },
 
@@ -26,5 +26,6 @@
     "sources": {
         "default": "charcoal_user_permissions"
     },
-    "default_source": "default"
+
+    "defaultSource": "default"
 }

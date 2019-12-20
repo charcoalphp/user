@@ -30,7 +30,7 @@ abstract class AbstractAuthToken extends AbstractModel implements
      *
      * @var string
      */
-    private $ident;
+    protected $ident;
 
     /**
      * The token value.
@@ -72,14 +72,6 @@ abstract class AbstractAuthToken extends AbstractModel implements
     }
 
     /**
-     * @return string
-     */
-    public function getIdent()
-    {
-        return $this->ident;
-    }
-
-    /**
      * @param  string $token The token.
      * @return self
      */
@@ -87,14 +79,6 @@ abstract class AbstractAuthToken extends AbstractModel implements
     {
         $this->token = $token;
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getToken()
-    {
-        return $this->token;
     }
 
     /**
@@ -112,14 +96,6 @@ abstract class AbstractAuthToken extends AbstractModel implements
 
         $this->userId = $id;
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUserId()
-    {
-        return $this->userId;
     }
 
     /**
@@ -146,14 +122,6 @@ abstract class AbstractAuthToken extends AbstractModel implements
 
         $this->expiry = $expiry;
         return $this;
-    }
-
-    /**
-     * @return DateTimeInterface|null
-     */
-    public function getExpiry()
-    {
-        return $this->expiry;
     }
 
     /**
