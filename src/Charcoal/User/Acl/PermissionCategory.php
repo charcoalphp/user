@@ -17,7 +17,7 @@ class PermissionCategory extends Content implements CategoryInterface
     /**
      * @var \Charcoal\Translator\Translation|null
      */
-    private $name;
+    protected $name;
 
     /**
      * @param mixed $name The news category name (localized).

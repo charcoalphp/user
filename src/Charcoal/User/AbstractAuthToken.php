@@ -37,21 +37,21 @@ abstract class AbstractAuthToken extends AbstractModel implements
      *
      * @var string
      */
-    private $token;
+    protected $token;
 
     /**
      * The related user ID.
      *
      * @var string
      */
-    private $userId;
+    protected $userId;
 
     /**
      * The token's expiration date.
      *
      * @var DateTimeInterface|null
      */
-    private $expiry;
+    protected $expiry;
 
     /**
      * @return string

@@ -33,7 +33,7 @@ class Permission extends AbstractModel implements CategorizableInterface
     /**
      * @var \Charcoal\Translator\Translation|null
      */
-    private $name;
+    protected $name;
 
     /**
      * Permission can be used as a string (ident).

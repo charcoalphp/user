@@ -62,12 +62,12 @@ class Role extends AbstractModel
     /**
      * @var boolean
      */
-    private $superuser = false;
+    protected $superuser = false;
 
     /**
      * @var integer
      */
-    private $position;
+    protected $position;
 
     /**
      * ACL Role can be used as a string (ident).

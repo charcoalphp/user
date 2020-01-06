@@ -20,14 +20,14 @@ class PermissionCategoryTest extends AbstractTestCase
      *
      * @var PermissionCategory
      */
-    private $obj;
+    protected $obj;
 
     /**
      * Store the service container.
      *
      * @var Container
      */
-    private $container;
+    protected $container;
 
     /**
      * Set up the test.
@@ -51,7 +51,7 @@ class PermissionCategoryTest extends AbstractTestCase
     {
         $ret = $this->obj->setName('foobar');
         $this->assertSame($ret, $this->obj);
-        $this->assertEquals('foobar', $this->obj['name']);
+        $this->assertEquals('foobar', (string)$this->obj['name']);
     }
 
     /**
