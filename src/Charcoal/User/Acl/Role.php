@@ -3,13 +3,10 @@
 namespace Charcoal\User\Acl;
 
 use InvalidArgumentException;
-
 // From Pimple
 use Pimple\Container;
-
 // From 'charcoal-translator'
 use Charcoal\Translator\TranslatorAwareTrait;
-
 // From 'charcoal-core'
 use Charcoal\Model\AbstractModel;
 
@@ -72,7 +69,7 @@ class Role extends AbstractModel
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         if ($this->ident === null) {
             return '';

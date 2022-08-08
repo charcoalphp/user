@@ -3,11 +3,9 @@
 namespace Charcoal\User;
 
 use InvalidArgumentException;
-
 // From 'laminas/laminas-permissions-acl'
 use Laminas\Permissions\Acl\Exception\ExceptionInterface as AclExceptionInterface;
 use Laminas\Permissions\Acl\Resource\ResourceInterface as AclResourceInterface;
-
 // From 'charcoal-user'
 use Charcoal\User\UserInterface;
 
@@ -25,7 +23,7 @@ use Charcoal\User\UserInterface;
  */
 class Authorizer extends AbstractAuthorizer
 {
-    const DEFAULT_RESOURCE = 'DEFAULT_RESOURCE';
+    public const DEFAULT_RESOURCE = 'DEFAULT_RESOURCE';
 
     /**
      * The default ACL resource identifier.
